@@ -210,7 +210,8 @@ AzubiApp/
 - ✅ Chrome/Edge (empfohlen)
 - ✅ Firefox
 - ✅ Safari (iOS/macOS)
-- ✅ Mobile Browser (iOS Safari, Chrome Mobile)
+- ✅ Samsung Internet Browser
+- ✅ Mobile Browser (iOS Safari, Chrome Mobile, Samsung Internet)
 
 ## Lizenz
 
