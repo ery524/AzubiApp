@@ -7,6 +7,8 @@ Eine mobile Web-App zur Verwaltung und Verfolgung von Aufgaben für Auszubildend
 - ✅ **Benutzer-Login**: Kürzel-Abfrage beim Start für personalisierte Nutzung
 - ✅ **Dynamisches Laden von Aufgaben** basierend auf Manifest-Dateien
 - ✅ **Aufgaben-Tracking**: Automatische Speicherung mit Datum, Uhrzeit und Benutzer
+- ✅ **Tabellen-Ansicht**: Übersichtliche Tabelle aller erledigten Aufgaben
+- ✅ **Excel/CSV Export**: Tracking-Daten als Excel-kompatible CSV-Datei exportieren
 - ✅ Aufgabenanzeige basierend auf Liane's Anwesenheitsstatus
 - ✅ Slide-für-Slide Navigation durch Aufgaben
 - ✅ Abhaken erledigter Aufgaben mit grünem Button (✓, unten rechts)
@@ -124,6 +126,29 @@ Die App speichert automatisch jeden Aufgabenabschluss mit folgenden Informatione
 - Liane-Status (da/nicht da)
 - Datum und Uhrzeit der Erledigung
 - ISO-Timestamp
+
+### Tabelle anzeigen
+
+Klicke auf den **"📊 Tabelle"** Button in der Kopfzeile, um alle erledigten Aufgaben in einer übersichtlichen Tabelle anzuzeigen.
+
+Die Tabelle zeigt:
+- **Kürzel**: Wer hat die Aufgabe erledigt
+- **Aufgabe**: Name der Aufgabe
+- **Erledigt**: Ja/Nein Status
+- **Datum**: Datum im deutschen Format (TT.MM.JJJJ)
+- **Uhrzeit**: Uhrzeit im deutschen Format (HH:MM:SS)
+
+### Excel/CSV Export
+
+In der Tabelle kannst du auf **"📥 Als Excel/CSV exportieren"** klicken, um die Tracking-Daten als CSV-Datei herunterzuladen.
+
+Die exportierte Datei:
+- Kann direkt in Microsoft Excel geöffnet werden
+- Verwendet Semikolon als Trennzeichen (deutscher Standard)
+- Enthält alle Spalten: Kürzel, Aufgabe, Erledigt, Datum, Uhrzeit
+- Wird automatisch mit Datum im Dateinamen gespeichert: `Aufgaben-Tabelle_TT-MM-JJJJ.csv`
+
+### Manuelle Abfrage (Browser-Konsole)
 
 Die Tracking-Daten werden in **LocalStorage** gespeichert und können über die Browser-Konsole abgerufen werden:
 ```javascript
