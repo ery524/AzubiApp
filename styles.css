@@ -90,9 +90,8 @@ body {
 .app-container {
     display: flex;
     flex-direction: column;
-    /* Use dvh (dynamic viewport height) which accounts for browser UI */
-    /* Fallback to 100vh for older browsers, then subtract safe area insets */
-    height: 100vh;
+    /* Subtract safe area insets from viewport height to ensure buttons are visible */
+    /* on devices with bottom navigation bars (e.g., Samsung S24 Ultra) */
     height: calc(100vh - env(safe-area-inset-bottom, 0px));
     max-width: 100%;
 }
