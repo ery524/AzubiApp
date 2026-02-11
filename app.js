@@ -208,47 +208,27 @@ async function saveTaskCompletion() {
     };
     
     try {
-        // Get existing tracking data
+        // Get existing tracking data from localStorage
         let trackingData = [];
-        try {
-            const response = await fetch('Tabellen/tracking.json');
-            if (response.ok) {
-                trackingData = await response.json();
+        const savedTracking = localStorage.getItem('taskTracking');
+        if (savedTracking) {
+            try {
+                trackingData = JSON.parse(savedTracking);
+            } catch (e) {
+                console.error('Fehler beim Parsen der Tracking-Daten:', e);
+                trackingData = [];
             }
-        } catch (e) {
-            // File might not exist yet, start with empty array
-            console.log('Tracking file not found, creating new one');
         }
         
         // Add new entry
         trackingData.push(trackingEntry);
         
-        // Save to localStorage as backup (since we can't write files from browser)
+        // Save to localStorage
         localStorage.setItem('taskTracking', JSON.stringify(trackingData));
-        
-        // Also try to save via a simple download mechanism
-        // This creates a downloadable file that users can save to the Tabellen folder
-        downloadTrackingData(trackingData);
+        console.log('Tracking-Daten gespeichert:', trackingEntry);
         
     } catch (error) {
         console.error('Fehler beim Speichern der Tracking-Daten:', error);
-    }
-}
-
-// Download tracking data as JSON file
-function downloadTrackingData(data) {
-    // Only download every 5 completions to avoid too many downloads
-    const completionCount = completedTasks.size;
-    if (completionCount % 5 === 0 || completionCount === 1) {
-        const dataStr = JSON.stringify(data, null, 2);
-        const dataBlob = new Blob([dataStr], { type: 'application/json' });
-        const url = URL.createObjectURL(dataBlob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = 'tracking.json';
-        // Don't actually trigger download automatically - just store in localStorage
-        // Users can manually download if needed
-        console.log('Tracking data saved to localStorage');
     }
 }
 

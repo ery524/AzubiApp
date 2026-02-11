@@ -4,9 +4,12 @@ Eine mobile Web-App zur Verwaltung und Verfolgung von Aufgaben für Auszubildend
 
 ## Features
 
-- ✅ Dynamisches Laden von Aufgaben basierend auf Liane's Anwesenheitsstatus
+- ✅ **Benutzer-Login**: Kürzel-Abfrage beim Start für personalisierte Nutzung
+- ✅ **Dynamisches Laden von Aufgaben** basierend auf Manifest-Dateien
+- ✅ **Aufgaben-Tracking**: Automatische Speicherung mit Datum, Uhrzeit und Benutzer
+- ✅ Aufgabenanzeige basierend auf Liane's Anwesenheitsstatus
 - ✅ Slide-für-Slide Navigation durch Aufgaben
-- ✅ Abhaken erledigter Aufgaben mit grünem Button (unten rechts)
+- ✅ Abhaken erledigter Aufgaben mit grünem Button (✓, unten rechts)
 - ✅ Automatisches Vorrücken zur nächsten Aufgabe nach Abhaken
 - ✅ Fortschrittsspeicherung (LocalStorage)
 - ✅ Mobile-optimiertes, responsives Design
@@ -17,11 +20,21 @@ Eine mobile Web-App zur Verwaltung und Verfolgung von Aufgaben für Auszubildend
 ### App starten
 
 1. Öffne `index.html` in einem Webbrowser (empfohlen: Chrome, Firefox, Safari)
-2. Für lokale Entwicklung mit HTTP-Server:
-   ```bash
-   python3 -m http.server 8080
-   # Dann öffne http://localhost:8080
-   ```
+2. Gib beim ersten Start dein Kürzel ein (z.B. "AB", "MK")
+3. Das Kürzel wird für Tracking-Zwecke gespeichert
+
+Für lokale Entwicklung mit HTTP-Server:
+```bash
+python3 -m http.server 8080
+# Dann öffne http://localhost:8080
+```
+
+### Kürzel zurücksetzen
+
+Falls du das Kürzel ändern möchtest:
+1. Öffne die Browser-Konsole (F12)
+2. Führe aus: `localStorage.removeItem('userAbbreviation')`
+3. Lade die Seite neu
 
 ### Liane-Status konfigurieren
 
@@ -34,18 +47,27 @@ Bearbeite die Datei `config.json`:
 
 ### Aufgaben hinzufügen/bearbeiten
 
-**Für Aufgaben wenn Liane da ist:**
-- Speichere HTML-Dateien im Ordner: `Aufgaben wenn Liane da ist/`
-- Benenne sie: `aufgabe1.html`, `aufgabe2.html`, `aufgabe3.html`, etc.
+**Schritt 1: HTML-Datei erstellen**
 
-**Für Aufgaben wenn Liane nicht da ist:**
-- Speichere HTML-Dateien im Ordner: `Aufgaben wenn Liane nicht da ist/`
-- Benenne sie: `aufgabe1.html`, `aufgabe2.html`, `aufgabe3.html`, etc.
+Erstelle eine neue HTML-Datei im entsprechenden Ordner:
+- **Für Aufgaben wenn Liane da ist:** `Aufgaben wenn Liane da ist/`
+- **Für Aufgaben wenn Liane nicht da ist:** `Aufgaben wenn Liane nicht da ist/`
 
-**Wichtig:** Nach dem Hinzufügen neuer Aufgaben, aktualisiere die Dateiliste in `app.js` (Zeile 76):
-```javascript
-const taskFiles = ['aufgabe1.html', 'aufgabe2.html', 'aufgabe3.html', 'aufgabe4.html'];
+**Schritt 2: Manifest aktualisieren**
+
+Bearbeite die `tasks.json` Datei im jeweiligen Ordner und füge die neue Aufgabe hinzu:
+```json
+{
+  "tasks": [
+    "aufgabe1.html",
+    "aufgabe2.html",
+    "aufgabe3.html",
+    "aufgabe4.html"
+  ]
+}
 ```
+
+Die App erkennt automatisch die Anzahl der Aufgaben aus der Manifest-Datei!
 
 ### Aufgabenformat
 
@@ -73,12 +95,41 @@ Jede Aufgabe ist eine einfache HTML-Datei:
 ### Mit Maus/Touch:
 - **"Weiter →"** Button: Zur nächsten Aufgabe
 - **"← Zurück"** Button: Zur vorherigen Aufgabe
-- **"✓ Erledigt"** Button (grün, unten rechts): Aufgabe als erledigt markieren
+- **"✓"** Button (grün, unten rechts): Aufgabe als erledigt markieren
 
 ### Mit Tastatur:
 - **Pfeil links** (←): Zur vorherigen Aufgabe
 - **Pfeil rechts** (→): Zur nächsten Aufgabe
 - **Enter** oder **Leertaste**: Aufgabe als erledigt markieren
+
+## Aufgaben-Tracking
+
+Die App speichert automatisch jeden Aufgabenabschluss mit folgenden Informationen:
+- Benutzer-Kürzel
+- Aufgabenname und -datei
+- Liane-Status (da/nicht da)
+- Datum und Uhrzeit der Erledigung
+- ISO-Timestamp
+
+Die Tracking-Daten werden in **LocalStorage** gespeichert und können über die Browser-Konsole abgerufen werden:
+```javascript
+// Tracking-Daten anzeigen
+JSON.parse(localStorage.getItem('taskTracking'))
+```
+
+### Beispiel Tracking-Eintrag:
+```json
+{
+  "user": "AB",
+  "task": "Aufgabe 1",
+  "taskFile": "Aufgaben wenn Liane da ist/aufgabe1.html",
+  "lianeStatus": "Liane da",
+  "completed": true,
+  "date": "11.2.2026",
+  "time": "14:10:05",
+  "timestamp": "2026-02-11T14:10:05.388Z"
+}
+```
 
 ## Projektstruktur
 
@@ -88,11 +139,15 @@ AzubiApp/
 ├── app.js                                  # App-Logik
 ├── styles.css                              # Styling
 ├── config.json                             # Konfiguration (LianeIstDa)
+├── Tabellen/                               # Tracking-Daten
+│   └── tracking.json                       # Platzhalter für Tracking
 ├── Aufgaben wenn Liane da ist/
+│   ├── tasks.json                          # Manifest der Aufgaben
 │   ├── aufgabe1.html
 │   ├── aufgabe2.html
 │   └── aufgabe3.html
 └── Aufgaben wenn Liane nicht da ist/
+    ├── tasks.json                          # Manifest der Aufgaben
     ├── aufgabe1.html
     ├── aufgabe2.html
     └── aufgabe3.html
@@ -103,8 +158,9 @@ AzubiApp/
 - **Frontend-only**: Keine Backend-Abhängigkeiten
 - **Vanilla JavaScript**: Keine externen Frameworks
 - **Mobile-first Design**: Optimiert für Smartphones
-- **LocalStorage**: Fortschritt wird lokal gespeichert
+- **LocalStorage**: Fortschritt und Tracking-Daten werden lokal gespeichert
 - **iframe-basiert**: Aufgaben werden in isolierten iframes geladen
+- **Manifest-basiert**: Dynamisches Laden von Aufgaben aus tasks.json
 
 ## Browser-Kompatibilität
 
