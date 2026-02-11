@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background -->
+  <rect width="512" height="512" fill="#6F4E37" rx="80"/>
+  
+  <!-- Coffee cup -->
+  <path d="M 150 200 L 165 380 L 290 380 L 305 200 Z" fill="#FFF" stroke="#3D2817" stroke-width="8"/>
+  
+  <!-- Coffee inside cup -->
+  <path d="M 160 240 L 170 360 L 285 360 L 295 240 Z" fill="#8B4513" opacity="0.5"/>
+  
+  <!-- Cup handle -->
+  <path d="M 305 250 Q 350 250 350 300 Q 350 350 305 350" fill="none" stroke="#FFF" stroke-width="12" stroke-linecap="round"/>
+  
+  <!-- Steam -->
+  <path d="M 190 180 Q 190 150 200 140" fill="none" stroke="#FFF" stroke-width="10" stroke-linecap="round" opacity="0.7"/>
+  <path d="M 230 180 Q 230 140 240 120" fill="none" stroke="#FFF" stroke-width="10" stroke-linecap="round" opacity="0.7"/>
+  <path d="M 270 180 Q 270 150 280 140" fill="none" stroke="#FFF" stroke-width="10" stroke-linecap="round" opacity="0.7"/>
+  
+  <!-- Envelope -->
+  <rect x="320" y="390" width="150" height="100" rx="8" fill="#FFF" stroke="#3D2817" stroke-width="6"/>
+  <path d="M 320 390 L 395 450 L 470 390" fill="none" stroke="#3D2817" stroke-width="6" stroke-linejoin="round"/>
+  <line x1="320" y1="390" x2="395" y2="450" stroke="#8B4513" stroke-width="4" opacity="0.3"/>
+  <line x1="470" y1="390" x2="395" y2="450" stroke="#8B4513" stroke-width="4" opacity="0.3"/>
+  
+  <!-- Small decorative elements -->
+  <circle cx="420" cy="180" r="8" fill="#FFF" opacity="0.5"/>
+  <circle cx="380" cy="220" r="6" fill="#FFF" opacity="0.4"/>
+</svg>
