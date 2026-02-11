@@ -67,8 +67,9 @@ async function loadTasks() {
         : 'Aufgaben wenn Liane nicht da ist';
     
     // Get list of HTML files in the folder
-    // Since we can't list directory contents directly in browser,
-    // we'll use a predefined list of tasks
+    // Note: Task files are hardcoded since browsers cannot list directory contents.
+    // To add/remove tasks, update this array with the corresponding HTML filenames.
+    // Ensure task files are numbered sequentially (aufgabe1.html, aufgabe2.html, etc.)
     const taskFiles = ['aufgabe1.html', 'aufgabe2.html', 'aufgabe3.html'];
     
     tasks = taskFiles.map(file => ({
@@ -181,7 +182,8 @@ document.addEventListener('keydown', (e) => {
         prevBtn.click();
     } else if (e.key === 'ArrowRight' && !nextBtn.disabled) {
         nextBtn.click();
-    } else if (e.key === 'Enter' || e.key === ' ') {
+    } else if (e.key === 'Enter' || (e.key === ' ' && e.target === document.body)) {
+        // Only prevent default for Space when not in an input/scrollable element
         e.preventDefault();
         completeBtn.click();
     }
