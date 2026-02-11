@@ -1,49 +1,117 @@
 <!DOCTYPE html>
 <html lang="de">
-<!DOCTYPE html>
-<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aufgabe 1 - Ohne Liane</title>
+    <title>Aufgabe 3 – Kaffeemaschine reinigen</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #e0f2fe, #f0f9ff);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+            color: #1f2937;
         }
 
-        .task-container {
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .card {
             background: white;
-            padding: 40px 60px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            max-width: 500px;
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
         }
 
         h1 {
-            margin: 0 0 20px 0;
-            font-size: 2.2em;
-            color: #0f172a;
+            text-align: center;
+            margin-bottom: 40px;
         }
 
-        p {
-            margin: 0;
-            font-size: 1.3em;
-            color: #334155;
+        h2 {
+            margin-top: 0;
+            color: #2563eb;
+        }
+
+        ol {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        li {
+            margin-bottom: 14px;
+            padding-left: 32px;
+            position: relative;
+        }
+
+        li i {
+            position: absolute;
+            left: 0;
+            top: 3px;
+            color: #2563eb;
+        }
+
+        .important {
+            background: #fef3c7;
+            border-left: 6px solid #f59e0b;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <div class="task-container">
-        <h1>Aufgabe 1</h1>
-        <p>Essen aus dem Ofen holen und auf den Tresen stellen.</p>
-        <p>Hinweis: Unten links liegen hitzbeständige Handschuhe unter den Öfen</p>
+
+<div class="container">
+
+    <h1>☕ Aufgabe 3 – Kaffeemaschine reinigen</h1>
+
+    <div class="card">
+        <h2>Normale Reinigung</h2>
+        <ol>
+            <li><i class="fa-solid fa-house"></i>Unten rechts auf das Haussymbol drücken.</li>
+            <li><i class="fa-solid fa-bars"></i>Im Menü „Pflege“ auswählen.</li>
+            <li><i class="fa-solid fa-list"></i>„Reinigungsprogramm“ auswählen.</li>
+            <li><i class="fa-solid fa-play"></i>„Systemreinigung“ starten.</li>
+            <li><i class="fa-solid fa-power-off"></i>Bestätigen, dass sich die Maschine nach der Reinigung ausschalten darf.</li>
+            <li><i class="fa-solid fa-forward"></i>Die ersten zwei angezeigten Schritte mit der Pfeiltaste überspringen.</li>
+            <li><i class="fa-solid fa-trash"></i>Kaffeesatzbehälter leeren: Hebel hochdrücken, Behälter herausziehen, im Müll entleeren, wieder einsetzen und Hebel herunterziehen.</li>
+            <li><i class="fa-solid fa-snowflake"></i>Milchbehälter aus dem kleinen schwarzen Kühlschrank nehmen und den Schlauch abziehen.</li>
+            <li><i class="fa-solid fa-box-open"></i>Blauen Reinigungsbehälter aus dem rechten Schrank unter der Spüle holen.</li>
+            <li><i class="fa-solid fa-tablets"></i>Eine Reinigungstablette für das Milchsystem in den blauen Behälter legen.</li>
+            <li><i class="fa-solid fa-arrow-down"></i>Blauen Behälter in den Kühlschrank stellen und den Schlauch hineinstecken.</li>
+            <li><i class="fa-solid fa-tablets"></i>Eine normale Reinigungstablette in die Öffnung hinter dem Bohnenbehälter einwerfen (Klappe nach hinten schieben).</li>
+            <li><i class="fa-solid fa-hourglass-half"></i>Alle Schritte auf dem Display bestätigen und etwa 20 Minuten warten.</li>
+            <li><i class="fa-solid fa-faucet"></i>Blauen Behälter herausnehmen, ausspülen und zurück in den Schrank stellen.</li>
+            <li><i class="fa-solid fa-mug-hot"></i>Milch auffüllen, in den Kühlschrank stellen und Schlauch wieder einstecken.</li>
+        </ol>
     </div>
+
+    <div class="card">
+        <h2>Freitag – Grundreinigung</h2>
+        <ol>
+            <li><i class="fa-solid fa-house"></i>Reinigung starten (Haussymbol → Pflege → Reinigungsprogramm → Systemreinigung).</li>
+            <li><i class="fa-solid fa-list-check"></i>Dieses Mal keine Schritte überspringen.</li>
+            <li><i class="fa-solid fa-screwdriver-wrench"></i>Wenn die Maschine dazu auffordert, Teile wie Milchschlauch und Behälter ausbauen.</li>
+            <li><i class="fa-solid fa-soap"></i>Alle Teile gründlich mit warmem Wasser reinigen, bei Bedarf etwas Spülmittel verwenden.</li>
+            <li><i class="fa-solid fa-wind"></i>Teile vollständig trocknen lassen.</li>
+            <li><i class="fa-solid fa-rotate-right"></i>Alle Teile wieder korrekt einsetzen.</li>
+            <li><i class="fa-solid fa-play"></i>Reinigungsprogramm vollständig zu Ende laufen lassen.</li>
+        </ol>
+
+        <div class="important">
+            <strong>⚠ Wichtig:</strong><br><br>
+            <i class="fa-solid fa-trash"></i> Restliche Milch vor dem Reinigen entsorgen.<br><br>
+            <i class="fa-solid fa-dishwasher"></i> Milchbehälter freitags immer in die Spülmaschine stellen.<br><br>
+            <i class="fa-solid fa-clock"></i> Sicherstellen, dass der Behälter bis Montag sauber wieder verfügbar ist (Spülmaschine starten oder per Hand reinigen).
+        </div>
+    </div>
+
+</div>
+
 </body>
 </html>
