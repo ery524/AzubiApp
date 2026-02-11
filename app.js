@@ -256,8 +256,8 @@ async function saveTaskCompletion() {
         localStorage.setItem('taskTracking', JSON.stringify(trackingData));
         console.log('Tracking-Daten gespeichert:', trackingEntry);
         
-        // Auto-export CSV file
-        autoExportCSV();
+        // Save to server CSV (no download to user)
+        await saveToServerCSV(trackingEntry);
         
     } catch (error) {
         console.error('Fehler beim Speichern der Tracking-Daten:', error);
@@ -336,68 +336,32 @@ if (document.readyState === 'loading') {
 
 
 // Auto-export CSV to "Azubi Tabelle" folder
-function autoExportCSV() {
-    // Get tracking data from localStorage
-    const savedTracking = localStorage.getItem('taskTracking');
-    let trackingData = [];
-    
-    if (savedTracking) {
-        try {
-            trackingData = JSON.parse(savedTracking);
-        } catch (e) {
-            console.error('Fehler beim Laden der Tracking-Daten:', e);
-            return;
+// Send task completion to server to update CSV
+async function saveToServerCSV(taskEntry) {
+    try {
+        const response = await fetch('/api/save-task', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                user: taskEntry.user,
+                task: taskEntry.task,
+                completed: taskEntry.completed,
+                date: taskEntry.date,
+                time: taskEntry.time
+            })
+        });
+        
+        if (!response.ok) {
+            throw new Error(`Server error: ${response.status}`);
         }
+        
+        const result = await response.json();
+        console.log('✓ Aufgabe auf Server gespeichert:', taskEntry.task);
+        
+    } catch (error) {
+        console.error('Fehler beim Speichern auf Server:', error);
+        // Silent fail - data is already in localStorage
     }
-    
-    if (trackingData.length === 0) {
-        return; // No data to export
-    }
-    
-    // Create CSV content with UTF-8 BOM for Excel compatibility
-    // Use semicolon as separator for German Excel
-    const BOM = '\uFEFF';
-    const headers = ['Kürzel', 'Aufgabe', 'Erledigt', 'Datum', 'Uhrzeit'];
-    let csvContent = BOM + headers.join(';') + '\n';
-    
-    // Add data rows
-    trackingData.forEach(entry => {
-        const row = [
-            escapeCSV(entry.user || '-'),
-            escapeCSV(entry.task || '-'),
-            entry.completed ? 'Ja' : 'Nein',
-            escapeCSV(entry.date || '-'),
-            escapeCSV(entry.time || '-')
-        ];
-        csvContent += row.join(';') + '\n';
-    });
-    
-    // Create download link
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.setAttribute('href', url);
-    link.setAttribute('download', 'Aufgaben-Tabelle.csv');
-    
-    // Trigger download automatically
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    
-    // Clean up
-    URL.revokeObjectURL(url);
-    
-    console.log('CSV-Datei wurde heruntergeladen. Bitte speichere sie im Ordner "Azubi Tabelle".');
-}
-
-// Helper function to escape CSV values
-function escapeCSV(value) {
-    if (typeof value !== 'string') {
-        value = String(value);
-    }
-    // If value contains semicolon, newline, or quotes, wrap in quotes
-    if (value.includes(';') || value.includes('\n') || value.includes('"')) {
-        value = '"' + value.replace(/"/g, '""') + '"';
-    }
-    return value;
 }

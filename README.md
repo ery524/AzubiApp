@@ -7,7 +7,8 @@ Eine mobile Web-App zur Verwaltung und Verfolgung von Aufgaben für Auszubildend
 - ✅ **Benutzer-Login**: Kürzel-Abfrage beim Start für personalisierte Nutzung
 - ✅ **Dynamisches Laden von Aufgaben** basierend auf Manifest-Dateien
 - ✅ **Aufgaben-Tracking**: Automatische Speicherung mit Datum, Uhrzeit und Benutzer
-- ✅ **Automatischer CSV-Export**: CSV-Datei wird bei jedem abgehakten Task automatisch heruntergeladen
+- ✅ **Server-seitige CSV-Speicherung**: CSV wird auf dem Server erweitert, ohne dass der User etwas merkt
+- ✅ **Node.js Backend**: Automatische Speicherung in die CSV-Datei auf dem Server
 - ✅ Aufgabenanzeige basierend auf Liane's Anwesenheitsstatus
 - ✅ Slide-für-Slide Navigation durch Aufgaben
 - ✅ Abhaken erledigter Aufgaben mit grünem Button (✓, unten rechts)
@@ -20,29 +21,31 @@ Eine mobile Web-App zur Verwaltung und Verfolgung von Aufgaben für Auszubildend
 
 ### App starten
 
-**Wichtig**: Diese App funktioniert am besten mit einem lokalen Webserver!
+**Wichtig**: Diese App benötigt einen Node.js Server um die CSV-Datei auf dem Server zu aktualisieren!
 
-**Empfohlene Methode (mit Webserver):**
+**Installation (einmalig):**
 ```bash
-# Im Projektverzeichnis ausführen:
-python3 -m http.server 8080
-# Dann öffne im Browser: http://localhost:8080
+# Im Projektverzeichnis:
+npm install
 ```
 
-**Alternative Methoden:**
-- Mit Node.js: `npx http-server -p 8080`
-- Mit VS Code: Extension "Live Server" installieren und verwenden
-- Mit PHP: `php -S localhost:8080`
+**Server starten:**
+```bash
+npm start
+# Oder:
+node server.js
+```
 
-**Direktes Öffnen (ohne Webserver):**
-- Du kannst `index.html` auch direkt im Browser öffnen
-- Die App nutzt dann Standard-Einstellungen
-- ⚠️ Hinweis: Einige Funktionen könnten eingeschränkt sein
+Der Server läuft dann auf: **http://localhost:3000**
 
 **Nach dem Start:**
-1. Gib beim ersten Start dein Kürzel ein (z.B. "AB", "MK")
-2. Das Kürzel wird für Tracking-Zwecke gespeichert
-3. Beginne mit den Aufgaben!
+1. Öffne im Browser: http://localhost:3000
+2. Gib beim ersten Start dein Kürzel ein (z.B. "AB", "MK")
+3. Das Kürzel wird für Tracking-Zwecke gespeichert
+4. Beginne mit den Aufgaben!
+5. ✓ Wenn du eine Aufgabe abhakst, wird sie automatisch in der CSV-Datei auf dem Server gespeichert
+
+**Wichtig:** Die CSV-Datei (`Azubi Tabelle/Aufgaben-Tabelle.csv`) wird direkt auf dem Server erweitert. Der Benutzer bekommt davon nichts mit - keine Downloads!
 
 ### Kürzel zurücksetzen
 
@@ -126,18 +129,18 @@ Die App speichert automatisch jeden Aufgabenabschluss mit folgenden Informatione
 - Datum und Uhrzeit der Erledigung
 - ISO-Timestamp
 
-### Automatischer CSV-Export
+### Automatische Server-seitige CSV-Speicherung
 
-**Wichtig:** Bei jedem Klick auf den ✓ Button wird automatisch eine CSV-Datei heruntergeladen!
+**Wichtig:** Bei jedem Klick auf den ✓ Button wird die Aufgabe automatisch auf dem Server in der CSV-Datei gespeichert!
+
+**Der Benutzer bekommt davon nichts mit - keine Downloads!**
 
 Die CSV-Datei:
-- Heißt: **`Aufgaben-Tabelle.csv`**
-- Wird automatisch beim Browser heruntergeladen
-- Sollte im Ordner **`Azubi Tabelle`** im Projektverzeichnis gespeichert werden
+- Liegt im Ordner: **`Azubi Tabelle/Aufgaben-Tabelle.csv`**
+- Wird auf dem Server automatisch erweitert (nicht neu erstellt)
 - Kann direkt in Microsoft Excel geöffnet werden
 - Verwendet Semikolon als Trennzeichen (deutscher Standard)
 - Enthält alle Spalten: **Kürzel, Aufgabe, Erledigt, Datum, Uhrzeit**
-- Wird bei jedem abgehakten Task aktualisiert und heruntergeladen
 
 **Spalten in der CSV:**
 - **Kürzel**: Das beim Start eingegebene Benutzer-Kürzel
@@ -152,6 +155,12 @@ Kürzel;Aufgabe;Erledigt;Datum;Uhrzeit
 AB;Aufgabe 1;Ja;11.2.2026;15:12:27
 AB;Aufgabe 2;Ja;11.2.2026;15:12:45
 ```
+
+**Workflow:**
+1. Benutzer klickt ✓ bei einer Aufgabe
+2. App sendet Daten an Server (POST /api/save-task)
+3. Server schreibt neue Zeile in CSV-Datei
+4. Benutzer arbeitet einfach weiter - keine Unterbrechung!
 
 ### Manuelle Abfrage (Browser-Konsole)
 
@@ -187,13 +196,14 @@ AzubiApp/
 
 ## Technische Details
 
-- **Frontend-only**: Keine Backend-Abhängigkeiten
-- **Vanilla JavaScript**: Keine externen Frameworks
+- **Node.js Backend**: Express-Server für CSV-Speicherung
+- **REST API**: POST /api/save-task Endpoint zum Speichern von Aufgaben
+- **Vanilla JavaScript Frontend**: Keine externen Frameworks im Frontend
 - **Mobile-first Design**: Optimiert für Smartphones
 - **LocalStorage**: Fortschritt und Tracking-Daten werden lokal gespeichert
+- **Server-seitige Datei-Operationen**: CSV wird direkt auf dem Server erweitert
 - **iframe-basiert**: Aufgaben werden in isolierten iframes geladen
 - **Manifest-basiert**: Dynamisches Laden von Aufgaben aus tasks.json
-- **Auto-Export**: CSV wird bei jedem abgehakten Task automatisch heruntergeladen
 
 ## Browser-Kompatibilität
 
