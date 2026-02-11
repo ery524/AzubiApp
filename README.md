@@ -7,8 +7,7 @@ Eine mobile Web-App zur Verwaltung und Verfolgung von Aufgaben für Auszubildend
 - ✅ **Benutzer-Login**: Kürzel-Abfrage beim Start für personalisierte Nutzung
 - ✅ **Dynamisches Laden von Aufgaben** basierend auf Manifest-Dateien
 - ✅ **Aufgaben-Tracking**: Automatische Speicherung mit Datum, Uhrzeit und Benutzer
-- ✅ **Tabellen-Ansicht**: Übersichtliche Tabelle aller erledigten Aufgaben
-- ✅ **Excel/CSV Export**: Tracking-Daten als Excel-kompatible CSV-Datei exportieren
+- ✅ **Automatischer CSV-Export**: CSV-Datei wird bei jedem abgehakten Task automatisch heruntergeladen
 - ✅ Aufgabenanzeige basierend auf Liane's Anwesenheitsstatus
 - ✅ Slide-für-Slide Navigation durch Aufgaben
 - ✅ Abhaken erledigter Aufgaben mit grünem Button (✓, unten rechts)
@@ -122,31 +121,37 @@ Jede Aufgabe ist eine einfache HTML-Datei:
 
 Die App speichert automatisch jeden Aufgabenabschluss mit folgenden Informationen:
 - Benutzer-Kürzel
-- Aufgabenname und -datei
-- Liane-Status (da/nicht da)
+- Aufgabenname
+- Erledigt-Status (Ja)
 - Datum und Uhrzeit der Erledigung
 - ISO-Timestamp
 
-### Tabelle anzeigen
+### Automatischer CSV-Export
 
-Klicke auf den **"📊 Tabelle"** Button in der Kopfzeile, um alle erledigten Aufgaben in einer übersichtlichen Tabelle anzuzeigen.
+**Wichtig:** Bei jedem Klick auf den ✓ Button wird automatisch eine CSV-Datei heruntergeladen!
 
-Die Tabelle zeigt:
-- **Kürzel**: Wer hat die Aufgabe erledigt
-- **Aufgabe**: Name der Aufgabe
-- **Erledigt**: Ja/Nein Status
+Die CSV-Datei:
+- Heißt: **`Aufgaben-Tabelle.csv`**
+- Wird automatisch beim Browser heruntergeladen
+- Sollte im Ordner **`Azubi Tabelle`** im Projektverzeichnis gespeichert werden
+- Kann direkt in Microsoft Excel geöffnet werden
+- Verwendet Semikolon als Trennzeichen (deutscher Standard)
+- Enthält alle Spalten: **Kürzel, Aufgabe, Erledigt, Datum, Uhrzeit**
+- Wird bei jedem abgehakten Task aktualisiert und heruntergeladen
+
+**Spalten in der CSV:**
+- **Kürzel**: Das beim Start eingegebene Benutzer-Kürzel
+- **Aufgabe**: Name der erledigten Aufgabe
+- **Erledigt**: "Ja" (wird gesetzt wenn ✓ geklickt wurde)
 - **Datum**: Datum im deutschen Format (TT.MM.JJJJ)
 - **Uhrzeit**: Uhrzeit im deutschen Format (HH:MM:SS)
 
-### Excel/CSV Export
-
-In der Tabelle kannst du auf **"📥 Als Excel/CSV exportieren"** klicken, um die Tracking-Daten als CSV-Datei herunterzuladen.
-
-Die exportierte Datei:
-- Kann direkt in Microsoft Excel geöffnet werden
-- Verwendet Semikolon als Trennzeichen (deutscher Standard)
-- Enthält alle Spalten: Kürzel, Aufgabe, Erledigt, Datum, Uhrzeit
-- Wird automatisch mit Datum im Dateinamen gespeichert: `Aufgaben-Tabelle_TT-MM-JJJJ.csv`
+**Beispiel CSV-Inhalt:**
+```csv
+Kürzel;Aufgabe;Erledigt;Datum;Uhrzeit
+AB;Aufgabe 1;Ja;11.2.2026;15:12:27
+AB;Aufgabe 2;Ja;11.2.2026;15:12:45
+```
 
 ### Manuelle Abfrage (Browser-Konsole)
 
@@ -154,20 +159,6 @@ Die Tracking-Daten werden in **LocalStorage** gespeichert und können über die 
 ```javascript
 // Tracking-Daten anzeigen
 JSON.parse(localStorage.getItem('taskTracking'))
-```
-
-### Beispiel Tracking-Eintrag:
-```json
-{
-  "user": "AB",
-  "task": "Aufgabe 1",
-  "taskFile": "Aufgaben wenn Liane da ist/aufgabe1.html",
-  "lianeStatus": "Liane da",
-  "completed": true,
-  "date": "11.2.2026",
-  "time": "14:10:05",
-  "timestamp": "2026-02-11T14:10:05.388Z"
-}
 ```
 
 ## Projektstruktur
@@ -178,6 +169,8 @@ AzubiApp/
 ├── app.js                                  # App-Logik
 ├── styles.css                              # Styling
 ├── config.json                             # Konfiguration (LianeIstDa)
+├── Azubi Tabelle/                          # Ordner für CSV-Export
+│   └── Aufgaben-Tabelle.csv                # Hier CSV speichern!
 ├── Tabellen/                               # Tracking-Daten
 │   └── tracking.json                       # Platzhalter für Tracking
 ├── Aufgaben wenn Liane da ist/
@@ -200,6 +193,7 @@ AzubiApp/
 - **LocalStorage**: Fortschritt und Tracking-Daten werden lokal gespeichert
 - **iframe-basiert**: Aufgaben werden in isolierten iframes geladen
 - **Manifest-basiert**: Dynamisches Laden von Aufgaben aus tasks.json
+- **Auto-Export**: CSV wird bei jedem abgehakten Task automatisch heruntergeladen
 
 ## Browser-Kompatibilität
 

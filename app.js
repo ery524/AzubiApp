@@ -17,11 +17,6 @@ const totalTasksSpan = document.getElementById('total-tasks');
 const prevBtn = document.getElementById('prev-btn');
 const nextBtn = document.getElementById('next-btn');
 const completeBtn = document.getElementById('complete-btn');
-const showTableBtn = document.getElementById('show-table-btn');
-const tableModal = document.getElementById('table-modal');
-const closeTableBtn = document.getElementById('close-table-btn');
-const exportExcelBtn = document.getElementById('export-excel-btn');
-const trackingTableBody = document.getElementById('tracking-table-body');
 
 // Initialize app
 async function init() {
@@ -261,6 +256,9 @@ async function saveTaskCompletion() {
         localStorage.setItem('taskTracking', JSON.stringify(trackingData));
         console.log('Tracking-Daten gespeichert:', trackingEntry);
         
+        // Auto-export CSV file
+        autoExportCSV();
+        
     } catch (error) {
         console.error('Fehler beim Speichern der Tracking-Daten:', error);
     }
@@ -316,11 +314,6 @@ nextBtn.addEventListener('click', () => {
 
 completeBtn.addEventListener('click', completeCurrentTask);
 
-// Table modal event listeners
-showTableBtn.addEventListener('click', showTrackingTable);
-closeTableBtn.addEventListener('click', closeTrackingTable);
-exportExcelBtn.addEventListener('click', exportToExcel);
-
 // Keyboard navigation
 document.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowLeft' && !prevBtn.disabled) {
@@ -341,8 +334,9 @@ if (document.readyState === 'loading') {
     init();
 }
 
-// Show tracking table modal
-function showTrackingTable() {
+
+// Auto-export CSV to "Azubi Tabelle" folder
+function autoExportCSV() {
     // Get tracking data from localStorage
     const savedTracking = localStorage.getItem('taskTracking');
     let trackingData = [];
@@ -352,57 +346,12 @@ function showTrackingTable() {
             trackingData = JSON.parse(savedTracking);
         } catch (e) {
             console.error('Fehler beim Laden der Tracking-Daten:', e);
-        }
-    }
-    
-    // Clear existing table rows
-    trackingTableBody.innerHTML = '';
-    
-    if (trackingData.length === 0) {
-        trackingTableBody.innerHTML = '<tr><td colspan="5" class="empty-table-message">Noch keine Aufgaben erledigt. Beginne mit den Aufgaben und klicke auf ✓ um sie abzuhaken.</td></tr>';
-    } else {
-        // Populate table with data
-        trackingData.forEach(entry => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${escapeHtml(entry.user || '-')}</td>
-                <td>${escapeHtml(entry.task || '-')}</td>
-                <td>${entry.completed ? 'Ja' : 'Nein'}</td>
-                <td>${escapeHtml(entry.date || '-')}</td>
-                <td>${escapeHtml(entry.time || '-')}</td>
-            `;
-            trackingTableBody.appendChild(row);
-        });
-    }
-    
-    // Show modal
-    tableModal.classList.add('active');
-}
-
-// Close tracking table modal
-function closeTrackingTable() {
-    tableModal.classList.remove('active');
-}
-
-// Export table to Excel/CSV
-function exportToExcel() {
-    // Get tracking data from localStorage
-    const savedTracking = localStorage.getItem('taskTracking');
-    let trackingData = [];
-    
-    if (savedTracking) {
-        try {
-            trackingData = JSON.parse(savedTracking);
-        } catch (e) {
-            console.error('Fehler beim Laden der Tracking-Daten:', e);
-            alert('Fehler beim Laden der Daten.');
             return;
         }
     }
     
     if (trackingData.length === 0) {
-        alert('Keine Daten zum Exportieren vorhanden.');
-        return;
+        return; // No data to export
     }
     
     // Create CSV content with UTF-8 BOM for Excel compatibility
@@ -428,26 +377,17 @@ function exportToExcel() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.setAttribute('href', url);
+    link.setAttribute('download', 'Aufgaben-Tabelle.csv');
     
-    // Generate filename with current date
-    const now = new Date();
-    const dateStr = now.toLocaleDateString('de-DE').replace(/\./g, '-');
-    link.setAttribute('download', `Aufgaben-Tabelle_${dateStr}.csv`);
-    
-    // Trigger download
+    // Trigger download automatically
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     
     // Clean up
     URL.revokeObjectURL(url);
-}
-
-// Helper function to escape HTML
-function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
+    
+    console.log('CSV-Datei wurde heruntergeladen. Bitte speichere sie im Ordner "Azubi Tabelle".');
 }
 
 // Helper function to escape CSV values
