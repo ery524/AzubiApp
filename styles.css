@@ -158,6 +158,8 @@ body {
 .navigation {
     background: white;
     padding: 15px 20px;
+    /* Add padding at bottom to account for safe areas on mobile devices */
+    padding-bottom: calc(15px + env(safe-area-inset-bottom, 0px));
     box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -199,8 +201,8 @@ body {
 
 .complete-btn {
     position: fixed;
-    /* Position above navigation buttons */
-    bottom: 80px;
+    /* Position above navigation buttons with safe area consideration */
+    bottom: calc(80px + env(safe-area-inset-bottom, 0px));
     right: 20px;
     width: 60px;
     height: 60px;
@@ -255,6 +257,8 @@ body {
     
     .navigation {
         padding: 10px 15px;
+        /* Add extra padding at bottom for mobile safe areas */
+        padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
     }
     
     .nav-btn {
@@ -265,8 +269,8 @@ body {
     .complete-btn {
         width: 55px;
         height: 55px;
-        /* Position above navigation */
-        bottom: 70px;
+        /* Position above navigation with safe area consideration */
+        bottom: calc(70px + env(safe-area-inset-bottom, 0px));
         right: 15px;
         font-size: 1.6rem;
     }
