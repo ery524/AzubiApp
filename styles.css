@@ -166,10 +166,10 @@ body {
     padding: 15px 20px;
     /* Add padding at bottom to account for safe areas on mobile devices */
     /* Including Samsung Browser on Samsung devices */
-    /* Using 25px base + env fallback of 15px for total of 40px when safe area not detected */
-    padding-bottom: -webkit-calc(25px + constant(safe-area-inset-bottom));
-    padding-bottom: -webkit-calc(25px + env(safe-area-inset-bottom, 15px));
-    padding-bottom: calc(25px + env(safe-area-inset-bottom, 15px));
+    /* Using 100px base + env fallback of 15px for total of 115px when safe area not detected */
+    padding-bottom: -webkit-calc(100px + constant(safe-area-inset-bottom));
+    padding-bottom: -webkit-calc(100px + env(safe-area-inset-bottom, 15px));
+    padding-bottom: calc(100px + env(safe-area-inset-bottom, 15px));
     box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -275,10 +275,10 @@ body {
     .navigation {
         padding: 10px 15px;
         /* Add extra padding at bottom for mobile safe areas including Samsung Browser */
-        /* Using 20px base + env fallback of 15px for total of 35px when safe area not detected */
-        padding-bottom: -webkit-calc(20px + constant(safe-area-inset-bottom));
-        padding-bottom: -webkit-calc(20px + env(safe-area-inset-bottom, 15px));
-        padding-bottom: calc(20px + env(safe-area-inset-bottom, 15px));
+        /* Using 95px base + env fallback of 15px for total of 110px when safe area not detected */
+        padding-bottom: -webkit-calc(95px + constant(safe-area-inset-bottom));
+        padding-bottom: -webkit-calc(95px + env(safe-area-inset-bottom, 15px));
+        padding-bottom: calc(95px + env(safe-area-inset-bottom, 15px));
     }
     
     .nav-btn {
