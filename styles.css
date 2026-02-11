@@ -9,8 +9,6 @@ body {
     background-color: #f5f5f5;
     height: 100vh;
     overflow: hidden;
-    /* Support for safe area insets on mobile devices */
-    padding-bottom: env(safe-area-inset-bottom);
 }
 
 /* Modal styles */
@@ -92,7 +90,9 @@ body {
 .app-container {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    /* Subtract safe area insets from viewport height to ensure buttons are visible */
+    /* on devices with bottom navigation bars (e.g., Samsung S24 Ultra) */
+    height: calc(100vh - env(safe-area-inset-bottom, 0px));
     max-width: 100%;
 }
 
@@ -158,8 +158,6 @@ body {
 .navigation {
     background: white;
     padding: 15px 20px;
-    /* Add extra padding at bottom for safe area on mobile devices */
-    padding-bottom: calc(15px + env(safe-area-inset-bottom, 0px));
     box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -201,8 +199,8 @@ body {
 
 .complete-btn {
     position: fixed;
-    /* Position above navigation buttons with safe area support */
-    bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+    /* Position above navigation buttons */
+    bottom: 80px;
     right: 20px;
     width: 60px;
     height: 60px;
@@ -257,8 +255,6 @@ body {
     
     .navigation {
         padding: 10px 15px;
-        /* Add extra padding at bottom for safe area on mobile devices */
-        padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
     }
     
     .nav-btn {
@@ -269,8 +265,8 @@ body {
     .complete-btn {
         width: 55px;
         height: 55px;
-        /* Position above navigation with safe area support */
-        bottom: calc(70px + env(safe-area-inset-bottom, 0px));
+        /* Position above navigation */
+        bottom: 70px;
         right: 15px;
         font-size: 1.6rem;
     }
