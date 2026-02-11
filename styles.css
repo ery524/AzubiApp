@@ -95,10 +95,10 @@ body {
     flex-direction: column;
     /* Subtract safe area insets from viewport height to ensure buttons are visible */
     /* on devices with bottom navigation bars (e.g., Samsung S24 Ultra, Samsung Browser) */
-    height: calc(100vh - env(safe-area-inset-bottom, 0px));
     /* Fallback for Samsung Browser older versions */
     height: -webkit-calc(100vh - constant(safe-area-inset-bottom));
     height: -webkit-calc(100vh - env(safe-area-inset-bottom, 0px));
+    height: calc(100vh - env(safe-area-inset-bottom, 0px));
     max-width: 100%;
 }
 
@@ -166,9 +166,9 @@ body {
     padding: 15px 20px;
     /* Add padding at bottom to account for safe areas on mobile devices */
     /* Including Samsung Browser on Samsung devices */
-    padding-bottom: calc(15px + env(safe-area-inset-bottom, 0px));
     padding-bottom: -webkit-calc(15px + constant(safe-area-inset-bottom));
     padding-bottom: -webkit-calc(15px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(15px + env(safe-area-inset-bottom, 0px));
     box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -212,9 +212,9 @@ body {
     position: fixed;
     /* Position significantly higher above navigation buttons with safe area consideration */
     /* Optimized for Samsung Browser and Samsung devices */
-    bottom: calc(120px + env(safe-area-inset-bottom, 0px));
     bottom: -webkit-calc(120px + constant(safe-area-inset-bottom));
     bottom: -webkit-calc(120px + env(safe-area-inset-bottom, 0px));
+    bottom: calc(120px + env(safe-area-inset-bottom, 0px));
     right: 20px;
     width: 60px;
     height: 60px;
@@ -273,9 +273,9 @@ body {
     .navigation {
         padding: 10px 15px;
         /* Add extra padding at bottom for mobile safe areas including Samsung Browser */
-        padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
         padding-bottom: -webkit-calc(10px + constant(safe-area-inset-bottom));
         padding-bottom: -webkit-calc(10px + env(safe-area-inset-bottom, 0px));
+        padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
     }
     
     .nav-btn {
@@ -288,9 +288,9 @@ body {
         height: 55px;
         /* Position significantly higher above navigation with safe area consideration */
         /* Samsung Browser optimized */
-        bottom: calc(110px + env(safe-area-inset-bottom, 0px));
         bottom: -webkit-calc(110px + constant(safe-area-inset-bottom));
         bottom: -webkit-calc(110px + env(safe-area-inset-bottom, 0px));
+        bottom: calc(110px + env(safe-area-inset-bottom, 0px));
         right: 15px;
         font-size: 1.6rem;
     }
