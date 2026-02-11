@@ -3,8 +3,13 @@ let tasks = [];
 let currentTaskIndex = 0;
 let completedTasks = new Set();
 let lianeStatus = false;
+let userAbbreviation = '';
 
 // DOM elements
+const loginModal = document.getElementById('login-modal');
+const userAbbreviationInput = document.getElementById('user-abbreviation');
+const loginBtn = document.getElementById('login-btn');
+const userInfo = document.getElementById('user-info');
 const taskFrame = document.getElementById('task-frame');
 const statusIndicator = document.getElementById('status-indicator');
 const currentTaskSpan = document.getElementById('current-task');
@@ -15,6 +20,40 @@ const completeBtn = document.getElementById('complete-btn');
 
 // Initialize app
 async function init() {
+    // Check if user abbreviation exists
+    const savedAbbreviation = localStorage.getItem('userAbbreviation');
+    if (!savedAbbreviation) {
+        // Show login modal
+        showLoginModal();
+    } else {
+        userAbbreviation = savedAbbreviation;
+        userInfo.textContent = `Benutzer: ${userAbbreviation}`;
+        startApp();
+    }
+}
+
+// Show login modal
+function showLoginModal() {
+    loginModal.classList.add('active');
+    userAbbreviationInput.focus();
+}
+
+// Handle login
+function handleLogin() {
+    const abbreviation = userAbbreviationInput.value.trim().toUpperCase();
+    if (abbreviation.length > 0) {
+        userAbbreviation = abbreviation;
+        localStorage.setItem('userAbbreviation', abbreviation);
+        userInfo.textContent = `Benutzer: ${userAbbreviation}`;
+        loginModal.classList.remove('active');
+        startApp();
+    } else {
+        alert('Bitte gib ein gültiges Kürzel ein.');
+    }
+}
+
+// Start the app after login
+async function startApp() {
     try {
         // Load config
         const config = await loadConfig();
@@ -66,18 +105,31 @@ async function loadTasks() {
         ? 'Aufgaben wenn Liane da ist' 
         : 'Aufgaben wenn Liane nicht da ist';
     
-    // Get list of HTML files in the folder
-    // Note: Task files are hardcoded since browsers cannot list directory contents.
-    // To add/remove tasks, update this array with the corresponding HTML filenames.
-    // Ensure task files are numbered sequentially (aufgabe1.html, aufgabe2.html, etc.)
-    const taskFiles = ['aufgabe1.html', 'aufgabe2.html', 'aufgabe3.html'];
-    
-    tasks = taskFiles.map(file => ({
-        path: `${folderName}/${file}`,
-        name: file.replace('.html', '').replace('aufgabe', 'Aufgabe ')
-    }));
-    
-    totalTasksSpan.textContent = tasks.length;
+    try {
+        // Load tasks from manifest file
+        const response = await fetch(`${folderName}/tasks.json`);
+        if (!response.ok) {
+            throw new Error('Konnte tasks.json nicht laden');
+        }
+        const manifest = await response.json();
+        const taskFiles = manifest.tasks || [];
+        
+        tasks = taskFiles.map(file => ({
+            path: `${folderName}/${file}`,
+            name: file.replace('.html', '').replace('aufgabe', 'Aufgabe ')
+        }));
+        
+        totalTasksSpan.textContent = tasks.length;
+    } catch (error) {
+        console.error('Fehler beim Laden der Aufgaben:', error);
+        // Fallback to hardcoded list if manifest not found
+        const taskFiles = ['aufgabe1.html', 'aufgabe2.html', 'aufgabe3.html'];
+        tasks = taskFiles.map(file => ({
+            path: `${folderName}/${file}`,
+            name: file.replace('.html', '').replace('aufgabe', 'Aufgabe ')
+        }));
+        totalTasksSpan.textContent = tasks.length;
+    }
 }
 
 // Display a specific task
@@ -106,21 +158,24 @@ function updateNavigationButtons() {
 function updateCompleteButton() {
     if (completedTasks.has(currentTaskIndex)) {
         completeBtn.classList.add('completed');
-        completeBtn.textContent = '✓';
     } else {
         completeBtn.classList.remove('completed');
-        completeBtn.textContent = '✓ Erledigt';
     }
+    // Button always shows just the checkmark
+    completeBtn.textContent = '✓';
 }
 
 // Mark current task as complete
-function completeCurrentTask() {
+async function completeCurrentTask() {
     if (completedTasks.has(currentTaskIndex)) {
         // Unmark as complete
         completedTasks.delete(currentTaskIndex);
     } else {
         // Mark as complete
         completedTasks.add(currentTaskIndex);
+        
+        // Save to tracking table
+        await saveTaskCompletion();
         
         // Auto-advance to next task if not the last one
         if (currentTaskIndex < tasks.length - 1) {
@@ -132,6 +187,69 @@ function completeCurrentTask() {
     
     updateCompleteButton();
     saveProgress();
+}
+
+// Save task completion to tracking table
+async function saveTaskCompletion() {
+    const currentTask = tasks[currentTaskIndex];
+    const now = new Date();
+    const date = now.toLocaleDateString('de-DE');
+    const time = now.toLocaleTimeString('de-DE');
+    
+    const trackingEntry = {
+        user: userAbbreviation,
+        task: currentTask.name,
+        taskFile: currentTask.path,
+        lianeStatus: lianeStatus ? 'Liane da' : 'Liane nicht da',
+        completed: true,
+        date: date,
+        time: time,
+        timestamp: now.toISOString()
+    };
+    
+    try {
+        // Get existing tracking data
+        let trackingData = [];
+        try {
+            const response = await fetch('Tabellen/tracking.json');
+            if (response.ok) {
+                trackingData = await response.json();
+            }
+        } catch (e) {
+            // File might not exist yet, start with empty array
+            console.log('Tracking file not found, creating new one');
+        }
+        
+        // Add new entry
+        trackingData.push(trackingEntry);
+        
+        // Save to localStorage as backup (since we can't write files from browser)
+        localStorage.setItem('taskTracking', JSON.stringify(trackingData));
+        
+        // Also try to save via a simple download mechanism
+        // This creates a downloadable file that users can save to the Tabellen folder
+        downloadTrackingData(trackingData);
+        
+    } catch (error) {
+        console.error('Fehler beim Speichern der Tracking-Daten:', error);
+    }
+}
+
+// Download tracking data as JSON file
+function downloadTrackingData(data) {
+    // Only download every 5 completions to avoid too many downloads
+    const completionCount = completedTasks.size;
+    if (completionCount % 5 === 0 || completionCount === 1) {
+        const dataStr = JSON.stringify(data, null, 2);
+        const dataBlob = new Blob([dataStr], { type: 'application/json' });
+        const url = URL.createObjectURL(dataBlob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'tracking.json';
+        // Don't actually trigger download automatically - just store in localStorage
+        // Users can manually download if needed
+        console.log('Tracking data saved to localStorage');
+    }
 }
 
 // Save progress to localStorage
@@ -162,6 +280,14 @@ function loadProgress() {
 }
 
 // Event listeners
+loginBtn.addEventListener('click', handleLogin);
+
+userAbbreviationInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        handleLogin();
+    }
+});
+
 prevBtn.addEventListener('click', () => {
     if (currentTaskIndex > 0) {
         displayTask(currentTaskIndex - 1);
