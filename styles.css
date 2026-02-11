@@ -112,7 +112,6 @@ body {
     align-items: center;
     flex-wrap: wrap;
     gap: 10px;
-    position: relative;
 }
 
 .header h1 {
@@ -148,17 +147,16 @@ body {
 
 .ery-logo {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 1.8rem;
-    font-weight: 800;
-    letter-spacing: 0.15em;
+    bottom: 10px;
+    left: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    opacity: 0.6;
+    opacity: 0.4;
     font-family: 'Arial Black', 'Arial Bold', sans-serif;
     pointer-events: none;
     user-select: none;
@@ -167,15 +165,19 @@ body {
 
 @media (max-width: 768px) {
     .ery-logo {
-        font-size: 1.4rem;
-        letter-spacing: 0.12em;
+        font-size: 0.65rem;
+        letter-spacing: 0.18em;
+        bottom: 8px;
+        left: 15px;
     }
 }
 
 @media (max-width: 375px) {
     .ery-logo {
-        font-size: 1.2rem;
-        letter-spacing: 0.1em;
+        font-size: 0.6rem;
+        letter-spacing: 0.15em;
+        bottom: 8px;
+        left: 12px;
     }
 }
 
@@ -205,6 +207,7 @@ body {
     padding-bottom: -webkit-calc(100px + env(safe-area-inset-bottom, 15px));
     padding-bottom: calc(100px + env(safe-area-inset-bottom, 15px));
     box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
 }
 
 .progress-info {
