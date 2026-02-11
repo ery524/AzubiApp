@@ -22,6 +22,7 @@
             <h1>Azubi Aufgaben</h1>
             <div id="user-info"></div>
             <div id="status-indicator"></div>
+            <button id="show-table-btn" class="table-btn">📊 Tabelle</button>
         </div>
         
         <div class="task-viewer">
@@ -36,6 +37,35 @@
                 <button id="prev-btn" class="nav-btn" disabled>← Zurück</button>
                 <button id="next-btn" class="nav-btn" disabled>Weiter →</button>
                 <button id="complete-btn" class="complete-btn">✓</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Table Modal -->
+    <div id="table-modal" class="modal">
+        <div class="modal-content table-modal-content">
+            <div class="modal-header">
+                <h2>Aufgaben-Tabelle</h2>
+                <button id="close-table-btn" class="close-btn">✕</button>
+            </div>
+            <div class="modal-actions">
+                <button id="export-excel-btn" class="export-btn">📥 Als Excel/CSV exportieren</button>
+            </div>
+            <div class="table-container">
+                <table id="tracking-table">
+                    <thead>
+                        <tr>
+                            <th>Kürzel</th>
+                            <th>Aufgabe</th>
+                            <th>Erledigt</th>
+                            <th>Datum</th>
+                            <th>Uhrzeit</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tracking-table-body">
+                        <!-- Table rows will be inserted here -->
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
