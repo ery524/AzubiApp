@@ -95,10 +95,10 @@ body {
     flex-direction: column;
     /* Subtract safe area insets from viewport height to ensure buttons are visible */
     /* on devices with bottom navigation bars (e.g., Samsung S24 Ultra, Samsung Browser) */
-    /* Fallback for Samsung Browser older versions */
+    /* Using 20px fallback to ensure spacing when safe-area-inset-bottom is not detected */
     height: -webkit-calc(100vh - constant(safe-area-inset-bottom));
-    height: -webkit-calc(100vh - env(safe-area-inset-bottom, 0px));
-    height: calc(100vh - env(safe-area-inset-bottom, 0px));
+    height: -webkit-calc(100vh - env(safe-area-inset-bottom, 20px));
+    height: calc(100vh - env(safe-area-inset-bottom, 20px));
     max-width: 100%;
 }
 
