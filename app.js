@@ -152,7 +152,9 @@ async function loadTasks() {
     } catch (error) {
         console.error('Fehler beim Laden der Aufgaben:', error);
         // Fallback to hardcoded list if manifest not found
-        const taskFiles = ['aufgabe1.html', 'aufgabe2.html', 'aufgabe3.html'];
+        const taskFiles = lianeStatus 
+            ? ['aufgabe1.html', 'aufgabe2.html', 'aufgabe3.html']
+            : ['kaffeemaschine-reinigen.html', 'essen-in-ofen-stellen.html', 'essen-aus-ofen-holen.html'];
         tasks = taskFiles.map(file => ({
             path: `${folderName}/${file}`,
             name: file.replace('.html', '').replace('aufgabe', 'Aufgabe ')
