@@ -1,14 +1,144 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aufgabe 1 - Ohne Liane</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kaffeemaschinen Reinigung</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+    color: #1f2937;
+}
+header {
+    background: #111827;
+    color: white;
+    padding: 30px 20px;
+    text-align: center;
+}
+h1 {
+    margin: 0;
+    font-size: 2em;
+}
+.container {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 20px;
+}
+.card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    padding: 20px;
+    margin-bottom: 25px;
+}
+.card h2 {
+    margin-top: 0;
+    color: #2563eb;
+}
+ul {
+    list-style: none;
+    padding: 0;
+}
+li {
+    margin: 12px 0;
+    padding-left: 30px;
+    position: relative;
+}
+li i {
+    position: absolute;
+    left: 0;
+    top: 3px;
+    color: #2563eb;
+}
+.highlight {
+    background: #fef3c7;
+    border-left: 6px solid #f59e0b;
+    padding: 15px;
+    border-radius: 10px;
+}
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #6b7280;
+    font-size: 0.9em;
+}
+.badge {
+    display: inline-block;
+    background: #2563eb;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8em;
+    margin-bottom: 10px;
+}
+</style>
 </head>
 <body>
-    <div class="task-container">
-        <h1>Aufgabe 1</h1>
-        <p>Geschirrspüler morgens ausleeren und dreckiges Geschirr in die Spülmaschine stellen.</p>
-    </div>
+
+<header>
+    <h1>☕ Kaffeemaschinen Reinigung</h1>
+    <p>Schritt-für-Schritt Anleitung</p>
+</header>
+
+<div class="container">
+
+<div class="card">
+<span class="badge">Standard Reinigung</span>
+<h2>Reinigungsprogramm starten</h2>
+<ul>
+<li><i class="fa-solid fa-house"></i> Haussymbol unten rechts drücken</li>
+<li><i class="fa-solid fa-bars"></i> Pflege → Reinigungsprogramm → Systemreinigung</li>
+<li><i class="fa-solid fa-power-off"></i> Ausschalten nach Reinigung bestätigen</li>
+<li><i class="fa-solid fa-forward"></i> Erste zwei Schritte mit Pfeiltaste überspringen</li>
+</ul>
+</div>
+
+<div class="card">
+<h2>Kaffeesatz & Milchsystem vorbereiten</h2>
+<ul>
+<li><i class="fa-solid fa-trash"></i> Salzbehälter (Kaffeesatzbehälter) entleeren: Spendehahn hochdrücken, Behälter herausziehen, im Kantinenmüll entsorgen, wieder einsetzen & Hahn herunterziehen</li>
+<li><i class="fa-solid fa-snowflake"></i> Milchbehälter aus Kühlschrank nehmen & Schlauch abstöpseln</li>
+<li><i class="fa-solid fa-box-open"></i> Blauen Reinigungsbehälter aus rechtem Schrank nehmen</li>
+<li><i class="fa-solid fa-tablets"></i> Milch-Reinigungstablette in blauen Behälter legen</li>
+<li><i class="fa-solid fa-arrow-down"></i> Blauen Behälter in Kühlschrank stellen & Schlauch einführen</li>
+<li><i class="fa-solid fa-tablets"></i> Normale Reinigungstablette in Schlitz hinter Bohnenbehälter einwerfen</li>
+<li><i class="fa-solid fa-hourglass-half"></i> Schritte bestätigen & 20 Minuten warten</li>
+<li><i class="fa-solid fa-faucet"></i> Blauen Behälter ausspülen & zurück in den Schrank</li>
+<li><i class="fa-solid fa-mug-hot"></i> Milch nachfüllen & Schlauch wieder einführen</li>
+</ul>
+</div>
+
+<div class="card">
+<span class="badge">Freitag – Grundreinigung</span>
+<h2>Zusätzliche Schritte</h2>
+<ul>
+<li><i class="fa-solid fa-list-check"></i> Erste 4 Schritte wie oben durchführen</li>
+<li><i class="fa-solid fa-screwdriver-wrench"></i> Keine Schritte überspringen – Einzelteile ausbauen, reinigen & wieder einbauen</li>
+<li><i class="fa-solid fa-play"></i> Danach mit Schritt 6 fortfahren</li>
+</ul>
+</div>
+
+<div class="card highlight">
+<h2>⚠ Wichtig!</h2>
+<p>
+Der Milchbehälter wird freitags immer in die Spülmaschine gestellt. Restliche Milch entsorgen.
+<br><br>
+Bitte sicherstellen, dass der Behälter bis Montag gereinigt verfügbar ist:
+<ul>
+<li>Spülmaschine rechtzeitig starten ODER</li>
+<li>Behälter gründlich per Hand reinigen</li>
+</ul>
+</p>
+</div>
+
+</div>
+
+<footer>
+Erstellt für die interne Kantinennutzung
+</footer>
+
 </body>
 </html>
