@@ -71,21 +71,50 @@ async function startApp() {
         // Display first task
         if (tasks.length > 0) {
             displayTask(currentTaskIndex);
+        } else {
+            taskFrame.srcdoc = '<div class="loading">Keine Aufgaben gefunden. Bitte füge HTML-Dateien im entsprechenden Ordner hinzu.</div>';
         }
         
     } catch (error) {
         console.error('Fehler beim Initialisieren der App:', error);
-        taskFrame.srcdoc = '<div class="loading">Fehler beim Laden der Aufgaben.</div>';
+        const isFileProtocol = window.location.protocol === 'file:';
+        let errorMessage;
+        if (isFileProtocol) {
+            const msg = document.createElement('div');
+            msg.className = 'loading';
+            msg.innerHTML = '<h3>Hinweis</h3><p>Diese App sollte über einen Webserver geöffnet werden.</p><p>Verwende z.B.: <code>python3 -m http.server 8080</code></p><p>Oder öffne die Datei mit "Live Server" in VS Code.</p>';
+            const small = document.createElement('small');
+            small.textContent = 'Technischer Fehler: ' + error.message;
+            const p = document.createElement('p');
+            p.appendChild(small);
+            msg.appendChild(p);
+            errorMessage = msg.outerHTML;
+        } else {
+            const msg = document.createElement('div');
+            msg.className = 'loading';
+            msg.textContent = 'Fehler beim Laden der Aufgaben: ' + error.message;
+            errorMessage = msg.outerHTML;
+        }
+        taskFrame.srcdoc = errorMessage;
     }
 }
 
 // Load config from JSON
 async function loadConfig() {
-    const response = await fetch('config.json');
-    if (!response.ok) {
-        throw new Error('Konnte config.json nicht laden');
+    try {
+        const response = await fetch('config.json');
+        if (!response.ok) {
+            throw new Error('Konnte config.json nicht laden');
+        }
+        return await response.json();
+    } catch (error) {
+        // Fallback for file:// protocol or when config.json is not accessible
+        console.warn('Konnte config.json nicht laden, verwende Standard-Konfiguration:', error.message);
+        // Return default configuration
+        return {
+            LianeIstDa: true
+        };
     }
-    return await response.json();
 }
 
 // Update status indicator

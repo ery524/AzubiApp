@@ -19,15 +19,29 @@ Eine mobile Web-App zur Verwaltung und Verfolgung von Aufgaben für Auszubildend
 
 ### App starten
 
-1. Öffne `index.html` in einem Webbrowser (empfohlen: Chrome, Firefox, Safari)
-2. Gib beim ersten Start dein Kürzel ein (z.B. "AB", "MK")
-3. Das Kürzel wird für Tracking-Zwecke gespeichert
+**Wichtig**: Diese App funktioniert am besten mit einem lokalen Webserver!
 
-Für lokale Entwicklung mit HTTP-Server:
+**Empfohlene Methode (mit Webserver):**
 ```bash
+# Im Projektverzeichnis ausführen:
 python3 -m http.server 8080
-# Dann öffne http://localhost:8080
+# Dann öffne im Browser: http://localhost:8080
 ```
+
+**Alternative Methoden:**
+- Mit Node.js: `npx http-server -p 8080`
+- Mit VS Code: Extension "Live Server" installieren und verwenden
+- Mit PHP: `php -S localhost:8080`
+
+**Direktes Öffnen (ohne Webserver):**
+- Du kannst `index.html` auch direkt im Browser öffnen
+- Die App nutzt dann Standard-Einstellungen
+- ⚠️ Hinweis: Einige Funktionen könnten eingeschränkt sein
+
+**Nach dem Start:**
+1. Gib beim ersten Start dein Kürzel ein (z.B. "AB", "MK")
+2. Das Kürzel wird für Tracking-Zwecke gespeichert
+3. Beginne mit den Aufgaben!
 
 ### Kürzel zurücksetzen
 
