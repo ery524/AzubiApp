@@ -17,23 +17,27 @@ Eine mobile Web-App zur Verwaltung und Verfolgung von Aufgaben für Auszubildend
 - ✅ Mobile-optimiertes, responsives Design
 - ✅ Tastaturnavigation (Pfeiltasten, Enter, Leertaste)
 
-## Verwendung
+## Schnellstart / Quick Start
 
-### App starten
+### ⚠️ WICHTIG: Vor dem ersten Start ausführen!
 
-**Wichtig**: Diese App benötigt einen Node.js Server um die CSV-Datei auf dem Server zu aktualisieren!
-
-**Installation (einmalig):**
 ```bash
 # Im Projektverzeichnis:
 npm install
 ```
 
+**Oder verwende den Setup-Befehl:**
+```bash
+npm run setup
+```
+
+### App starten
+
+**Wichtig**: Diese App benötigt einen Node.js Server um die CSV-Datei auf dem Server zu aktualisieren!
+
 **Server starten:**
 ```bash
 npm start
-# Oder:
-node server.js
 ```
 
 Der Server läuft dann auf: **http://localhost:3000**
@@ -212,6 +216,75 @@ AzubiApp/
 - ✅ Safari (iOS/macOS)
 - ✅ Samsung Internet Browser
 - ✅ Mobile Browser (iOS Safari, Chrome Mobile, Samsung Internet)
+
+## Fehlerbehebung / Troubleshooting
+
+### ❌ Fehler: "Cannot find module 'express'" oder "Cannot find module 'cors'"
+
+**Problem:** Die Abhängigkeiten (Dependencies) sind nicht installiert.
+
+**Lösung:**
+```bash
+npm install
+```
+
+Danach den Server starten mit:
+```bash
+npm start
+```
+
+### ❌ Fehler: "Fehler beim Laden der Tabellendaten"
+
+**Problem:** Der Server läuft nicht oder die Abhängigkeiten sind nicht installiert.
+
+**Lösung:**
+1. Stelle sicher, dass du `npm install` ausgeführt hast
+2. Starte den Server mit `npm start`
+3. Überprüfe, ob der Server läuft: http://localhost:3000/api/health
+4. Die Antwort sollte sein: `{"status":"OK","message":"Server läuft"}`
+
+### ❌ Server startet nicht
+
+**Mögliche Ursachen:**
+- Port 3000 ist bereits belegt
+- Node.js ist nicht installiert
+- Abhängigkeiten fehlen
+
+**Lösung:**
+```bash
+# Überprüfe Node.js Installation:
+node --version
+
+# Falls Node.js nicht installiert ist, lade es herunter:
+# https://nodejs.org/
+
+# Installiere Abhängigkeiten:
+npm install
+
+# Starte den Server:
+npm start
+```
+
+### 📊 CSV-Datei prüfen
+
+Die CSV-Datei befindet sich hier:
+```
+Azubi Tabelle/Aufgaben-Tabelle.csv
+```
+
+Du kannst sie mit jedem Texteditor oder Excel öffnen.
+
+### 🔍 Server-Logs anzeigen
+
+Der Server gibt Logs in der Konsole aus:
+```bash
+npm start
+
+# Ausgabe:
+# 🚀 AzubiApp Server läuft auf Port 3000
+# 📊 CSV-Datei: .../Azubi Tabelle/Aufgaben-Tabelle.csv
+# 🌐 Öffne im Browser: http://localhost:3000
+```
 
 ## Lizenz
 

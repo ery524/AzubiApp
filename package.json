@@ -4,8 +4,10 @@
   "description": "Azubi Aufgaben Tracking App",
   "main": "server.js",
   "scripts": {
+    "prestart": "node -e \"try { require('express'); require('cors'); } catch(e) { console.error('\\n⚠️  FEHLER: Abhängigkeiten nicht installiert!\\n\\nBitte führe zuerst aus:\\n  npm install\\n'); process.exit(1); }\"",
     "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "setup": "npm install && echo '\n✓ Setup abgeschlossen! Starte nun den Server mit: npm start\n'"
   },
   "dependencies": {
     "express": "^4.18.2",
