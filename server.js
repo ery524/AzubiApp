@@ -46,6 +46,49 @@ app.post('/api/save-task', (req, res) => {
     }
 });
 
+// API endpoint to get table data
+app.get('/api/get-table', (req, res) => {
+    try {
+        // Check if file exists
+        if (!fs.existsSync(CSV_FILE)) {
+            return res.json({
+                headers: ['Kürzel', 'Aufgabe', 'Erledigt', 'Datum', 'Uhrzeit'],
+                rows: []
+            });
+        }
+        
+        // Read CSV file
+        const csvContent = fs.readFileSync(CSV_FILE, 'utf8');
+        const lines = csvContent.trim().split('\n');
+        
+        if (lines.length === 0) {
+            return res.json({
+                headers: ['Kürzel', 'Aufgabe', 'Erledigt', 'Datum', 'Uhrzeit'],
+                rows: []
+            });
+        }
+        
+        // Parse CSV (semicolon-separated)
+        const headers = lines[0].split(';');
+        const rows = lines.slice(1).map(line => line.split(';'));
+        
+        // Reverse rows to show newest first
+        rows.reverse();
+        
+        res.json({
+            headers: headers,
+            rows: rows
+        });
+        
+    } catch (error) {
+        console.error('Error reading table data:', error);
+        res.status(500).json({ 
+            error: 'Fehler beim Laden der Tabellendaten',
+            details: error.message 
+        });
+    }
+});
+
 // Health check endpoint
 app.get('/api/health', (req, res) => {
     res.json({ status: 'OK', message: 'Server läuft' });

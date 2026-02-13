@@ -29,15 +29,51 @@
         </div>
     </div>
 
+    <!-- Sidebar Navigation -->
+    <div id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <h2>Navigation</h2>
+            <button id="close-sidebar" class="close-btn">&times;</button>
+        </div>
+        <nav class="sidebar-nav">
+            <button id="nav-tasks" class="sidebar-nav-btn active">
+                <span class="nav-icon">📋</span>
+                <span>Aufgabenliste</span>
+            </button>
+            <button id="nav-table" class="sidebar-nav-btn">
+                <span class="nav-icon">📊</span>
+                <span>Aufgaben-Tabelle</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- Sidebar Overlay -->
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
     <div class="app-container">
         <div class="header">
+            <button id="menu-btn" class="menu-btn" aria-label="Menü öffnen">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
             <h1>Azubi Aufgaben</h1>
             <div id="user-info"></div>
             <div id="status-indicator"></div>
         </div>
         
-        <div class="task-viewer">
+        <div id="task-view" class="task-viewer">
             <iframe id="task-frame" src="about:blank"></iframe>
+        </div>
+
+        <div id="table-view" class="table-viewer" style="display: none;">
+            <div class="table-header">
+                <h2>Aufgaben-Tabelle</h2>
+                <button id="refresh-table" class="refresh-btn">🔄 Aktualisieren</button>
+            </div>
+            <div id="table-container" class="table-container">
+                <p class="loading">Lade Tabellendaten...</p>
+            </div>
         </div>
         
         <div class="navigation">

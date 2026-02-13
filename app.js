@@ -4,6 +4,7 @@ let currentTaskIndex = 0;
 let completedTasks = new Set();
 let lianeStatus = false;
 let userAbbreviation = '';
+let currentView = 'tasks'; // 'tasks' or 'table'
 
 // DOM elements
 const loginModal = document.getElementById('login-modal');
@@ -17,6 +18,114 @@ const totalTasksSpan = document.getElementById('total-tasks');
 const prevBtn = document.getElementById('prev-btn');
 const nextBtn = document.getElementById('next-btn');
 const completeBtn = document.getElementById('complete-btn');
+
+// Sidebar elements
+const menuBtn = document.getElementById('menu-btn');
+const sidebar = document.getElementById('sidebar');
+const sidebarOverlay = document.getElementById('sidebar-overlay');
+const closeSidebarBtn = document.getElementById('close-sidebar');
+const navTasksBtn = document.getElementById('nav-tasks');
+const navTableBtn = document.getElementById('nav-table');
+
+// View elements
+const taskView = document.getElementById('task-view');
+const tableView = document.getElementById('table-view');
+const refreshTableBtn = document.getElementById('refresh-table');
+const tableContainer = document.getElementById('table-container');
+
+// Sidebar functions
+function openSidebar() {
+    sidebar.classList.add('open');
+    sidebarOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeSidebar() {
+    sidebar.classList.remove('open');
+    sidebarOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+function switchView(view) {
+    currentView = view;
+    
+    if (view === 'tasks') {
+        taskView.style.display = 'block';
+        tableView.style.display = 'none';
+        navTasksBtn.classList.add('active');
+        navTableBtn.classList.remove('active');
+        
+        // Show navigation buttons for task view
+        document.querySelector('.navigation').style.display = 'block';
+    } else if (view === 'table') {
+        taskView.style.display = 'none';
+        tableView.style.display = 'flex';
+        navTasksBtn.classList.remove('active');
+        navTableBtn.classList.add('active');
+        
+        // Hide navigation buttons for table view
+        document.querySelector('.navigation').style.display = 'none';
+        
+        // Load table data
+        loadTableData();
+    }
+    
+    closeSidebar();
+}
+
+// Load and display CSV table data
+async function loadTableData() {
+    try {
+        tableContainer.innerHTML = '<p class="loading">Lade Tabellendaten...</p>';
+        
+        const response = await fetch('/api/get-table');
+        if (!response.ok) {
+            throw new Error('Konnte Tabellendaten nicht laden');
+        }
+        
+        const data = await response.json();
+        
+        if (!data.rows || data.rows.length === 0) {
+            tableContainer.innerHTML = '<p class="no-data">Keine Daten vorhanden</p>';
+            return;
+        }
+        
+        // Create table
+        const table = document.createElement('table');
+        table.className = 'data-table';
+        
+        // Create header
+        const thead = document.createElement('thead');
+        const headerRow = document.createElement('tr');
+        data.headers.forEach(header => {
+            const th = document.createElement('th');
+            th.textContent = header;
+            headerRow.appendChild(th);
+        });
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+        
+        // Create body
+        const tbody = document.createElement('tbody');
+        data.rows.forEach(row => {
+            const tr = document.createElement('tr');
+            row.forEach(cell => {
+                const td = document.createElement('td');
+                td.textContent = cell;
+                tr.appendChild(td);
+            });
+            tbody.appendChild(tr);
+        });
+        table.appendChild(tbody);
+        
+        tableContainer.innerHTML = '';
+        tableContainer.appendChild(table);
+        
+    } catch (error) {
+        console.error('Fehler beim Laden der Tabelle:', error);
+        tableContainer.innerHTML = '<p class="no-data">Fehler beim Laden der Tabellendaten</p>';
+    }
+}
 
 // Initialize app
 async function init() {
@@ -315,6 +424,18 @@ nextBtn.addEventListener('click', () => {
 });
 
 completeBtn.addEventListener('click', completeCurrentTask);
+
+// Sidebar event listeners
+menuBtn.addEventListener('click', openSidebar);
+closeSidebarBtn.addEventListener('click', closeSidebar);
+sidebarOverlay.addEventListener('click', closeSidebar);
+
+// Navigation event listeners
+navTasksBtn.addEventListener('click', () => switchView('tasks'));
+navTableBtn.addEventListener('click', () => switchView('table'));
+
+// Table refresh button
+refreshTableBtn.addEventListener('click', loadTableData);
 
 // Keyboard navigation
 document.addEventListener('keydown', (e) => {
