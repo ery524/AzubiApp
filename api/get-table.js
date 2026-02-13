@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs = require('fs').promises;
 const path = require('path');
 
 module.exports = async (req, res) => {
@@ -18,16 +18,18 @@ module.exports = async (req, res) => {
         // Path to CSV file
         const CSV_FILE = path.join(process.cwd(), 'Azubi Tabelle', 'Aufgaben-Tabelle.csv');
         
-        // Check if file exists
-        if (!fs.existsSync(CSV_FILE)) {
+        // Read CSV file (will throw if file doesn't exist)
+        let csvContent;
+        try {
+            csvContent = await fs.readFile(CSV_FILE, 'utf8');
+        } catch (error) {
+            // File doesn't exist or can't be read
             return res.status(200).json({
                 headers: ['Kürzel', 'Aufgabe', 'Erledigt', 'Datum', 'Uhrzeit'],
                 rows: []
             });
         }
         
-        // Read CSV file
-        const csvContent = fs.readFileSync(CSV_FILE, 'utf8');
         const lines = csvContent.trim().split('\n');
         
         if (lines.length === 0) {
