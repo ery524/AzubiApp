@@ -1,3 +1,8 @@
+/* Hidden utility class */
+.hidden {
+    display: none !important;
+}
+
 /* Sidebar and Menu Styles */
 .menu-btn {
     display: flex;

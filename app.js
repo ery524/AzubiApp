@@ -50,21 +50,21 @@ function switchView(view) {
     currentView = view;
     
     if (view === 'tasks') {
-        taskView.style.display = 'block';
-        tableView.style.display = 'none';
+        taskView.classList.remove('hidden');
+        tableView.classList.add('hidden');
         navTasksBtn.classList.add('active');
         navTableBtn.classList.remove('active');
         
         // Show navigation buttons for task view
-        document.querySelector('.navigation').style.display = 'block';
+        document.querySelector('.navigation').classList.remove('hidden');
     } else if (view === 'table') {
-        taskView.style.display = 'none';
-        tableView.style.display = 'flex';
+        taskView.classList.add('hidden');
+        tableView.classList.remove('hidden');
         navTasksBtn.classList.remove('active');
         navTableBtn.classList.add('active');
         
         // Hide navigation buttons for table view
-        document.querySelector('.navigation').style.display = 'none';
+        document.querySelector('.navigation').classList.add('hidden');
         
         // Load table data
         loadTableData();
